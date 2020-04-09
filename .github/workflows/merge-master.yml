@@ -8,64 +8,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    name: Check Master Integrity
     steps:
-    - uses: actions/checkout@v1
+      - name: Checkout code
+        uses: actions/checkout@v1
 
-    - name: Check Copyright	
-      uses: qcastel/github-actions-maven-cmd@master
-      with:
-        maven-args: "license:check"
+      - name: Set up java environment
+        uses: actions/setup-java@v1
+        with: # running setup-java
+          java-version: '11'
+          architecture: x64
 
-    - name: Build and Test	
-      uses: qcastel/github-actions-maven-cmd@master
-      with:
-        maven-args: "clean install"
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven2-${{ hashFiles('**/pom.xml') }}
 
-    - name: Create Package
-      uses: benjefferies/create-bintray-package@master
-      with:
-        bintray-user: quentincastel86
-        bintray-token: ${{ secrets.BINTRAY_ACCESS_TOKEN }}
-        owner: openbanking4-dev
-        repo: openbanking4-dev
-        package-name: spring-security-multi-auth
-        package-description: Allowing multiple authentication and authorisation provider on Spring security
-        package-url: https://github.com/openbanking4-dev/spring-security-multi-auth
-        package-license: Apache-2.0
+      - name: Build project with Maven # build the project
+        run: mvn -B clean verify --file pom.xml # this command executes each default lifecycle phase in order (validate, compile, test, package, etc), before executing verify.
 
-    - name: Temporarily disable "include administrators" branch protection
-      uses: benjefferies/branch-protection-bot@master
-      if: always()
-      with:
-        access-token: ${{ secrets.BOT_GITHUB_REPO_ACCESS_TOKEN }}
-        owner: openbanking4-dev
-        enforce_admins: false
-        repo: spring-security-multi-auth
-
-    - name: Release
-      uses: qcastel/github-actions-maven-release@master
-      with:
-        maven-repo-server-id: bintray-quentincastel-openbanking4.dev
-        maven-repo-server-username: quentincastel86
-        maven-repo-server-password: ${{ secrets.PRIVATE_REPO_PASSWORD }}
-
-        gpg-enabled: "true"
-        gpg-key-id: ${{ secrets.GITHUB_GPG_KEY_ID }}
-        gpg-key: ${{ secrets.GITHUB_GPG_KEY }}
-
-        git-release-bot-name: "bot-openbanking4-dev"
-        git-release-bot-email: "bot@openbanking4.dev"
-
-        access-token: ${{ secrets.BOT_GITHUB_REPO_ACCESS_TOKEN }}
-
-    - name: Enable "include administrators" branch protection
-      uses: benjefferies/branch-protection-bot@master
-      if: always()
-      with:
-        access-token: ${{ secrets.BOT_GITHUB_REPO_ACCESS_TOKEN }}
-        owner: openbanking4-dev
-        repo: spring-security-multi-auth
-    - uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_ACCESS_TOKEN }}
