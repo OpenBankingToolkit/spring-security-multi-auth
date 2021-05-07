@@ -1,6 +1,6 @@
 | |Current Status|
 |---|---|
-|Build|[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fopenbanking4-dev%2Fspring-security-multi-auth%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/openbanking4-dev/spring-security-multi-auth/goto?ref=master)|
+|Build|[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FOpenBankingToolkit%2Fspring-security-multi-auth%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/OpenBankingToolkit/spring-security-multi-auth/goto?ref=master)|
 |Code coverage|[![codecov](https://codecov.io/gh/OpenBankingToolkit/spring-security-multi-auth/branch/master/graph/badge.svg)](https://codecov.io/gh/OpenBankingToolkit/spring-security-multi-auth)
 |Release|[![GitHub release (latest by date)](https://img.shields.io/github/v/release/OpenBankingToolkit/spring-security-multi-auth.svg)](https://img.shields.io/github/v/release/OpenBankingToolkit/spring-security-multi-auth)
 |License|![license](https://img.shields.io/github/license/ACRA/acra.svg)|
