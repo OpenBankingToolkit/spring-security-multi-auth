@@ -116,8 +116,8 @@
 	</dependencyManagement>
 
 	<scm>
-		<connection>scm:git:https://github.com/OpenBankingToolkit/spring-security-multi-auth.git</connection>
-		<developerConnection>scm:git:https://github.com/OpenBankingToolkit/spring-security-multi-auth.git</developerConnection>
+		<connection>scm:git:git@github.com:OpenBankingToolkit/spring-security-multi-auth.git</connection>
+		<developerConnection>scm:git:git@github.com:OpenBankingToolkit/spring-security-multi-auth.git</developerConnection>
 		<url>https://github.com/OpenBankingToolkit/spring-security-multi-auth.git</url>
 	  	<tag>HEAD</tag>
   	</scm>
