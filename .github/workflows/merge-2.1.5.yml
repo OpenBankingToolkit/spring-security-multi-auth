@@ -3,7 +3,7 @@ name: merge-master
 on:
   push:
     branches:
-      - master
+      - release-spring-version-2.1.5
 
 jobs:
   build:
