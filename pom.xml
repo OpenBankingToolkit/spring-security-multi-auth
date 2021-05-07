@@ -33,7 +33,7 @@
 
 	<groupId>com.forgerock.spring.security</groupId>
 	<artifactId>spring-security-multi-auth</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>spring-security-multi-auth</name>
 	<packaging>pom</packaging>
 	<url>https://github.com/OpenBankingToolkit/spring-security-multi-auth</url>
@@ -119,7 +119,7 @@
 		<connection>scm:git:git@github.com:OpenBankingToolkit/spring-security-multi-auth.git</connection>
 		<developerConnection>scm:git:git@github.com:OpenBankingToolkit/spring-security-multi-auth.git</developerConnection>
 		<url>https://github.com/OpenBankingToolkit/spring-security-multi-auth.git</url>
-	  	<tag>HEAD</tag>
+	  	<tag>spring-security-multi-auth-1.0.0</tag>
   	</scm>
 
 	<distributionManagement>
