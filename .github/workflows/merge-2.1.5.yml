@@ -1,0 +1,67 @@
+name: merge-master
+
+on:
+  push:
+    branches:
+      - release-spring-version-2.1.5
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Check Master Integrity
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Set up java environment
+        uses: actions/setup-java@v1
+        with: # running setup-java
+          java-version: '11'
+          architecture: x64
+
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven2-${{ hashFiles('**/pom.xml') }}
+
+      - name: Build project with Maven # build the project
+        run: mvn -B clean verify --file pom.xml # this command executes each default lifecycle phase in order (validate, compile, test, package, etc), before executing verify.
+
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_ACCESS_TOKEN }}
+  
+  release:
+    runs-on: ubuntu-latest
+    name: Deploy release
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Set up forgerock maven repository
+        uses: actions/setup-java@v1
+        with: # running setup-java and overwrites the settings.xml
+          java-version: "11"
+          architecture: x64
+          server-id: maven.forgerock.org-community # Value of the distributionManagement/repository/id field of the pom.xml
+          server-username: MAVEN_USERNAME # env variable for username in deploy
+          server-password: MAVEN_CENTRAL_TOKEN # env variable for token in deploy
+
+      - name: Set up snapshot forgerock maven repository
+        if: contains(github.ref, 'SNAPSHOT')
+        uses: actions/setup-java@v1
+        with: # running setup-java and overwrites the settings.xml
+          java-version: "11"
+          architecture: x64
+          server-id: maven.forgerock.org-community-snapshots # Value of the distributionManagement/repository/id field of the pom.xml
+          server-username: MAVEN_USERNAME # env variable for username in deploy
+          server-password: MAVEN_CENTRAL_TOKEN # env variable for token in deploy
+
+      - name: Release package
+        run: mvn -B deploy -DskipTests -DskipITs -DdockerCompose.skip -Ddockerfile.skip
+        env:
+          MAVEN_USERNAME: ${{ secrets.FR_ARTIFACTORY_USER }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.FR_ARTIFACTORY_TOKEN }}
