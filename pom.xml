@@ -31,13 +31,23 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>dev.openbanking4.spring.security</groupId>
+	<groupId>com.forgerock.spring.security</groupId>
 	<artifactId>spring-security-multi-auth</artifactId>
-	<version>2.1.5.0.0.53-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>spring-security-multi-auth</name>
-	<description>Spring security multi-authentication</description>
 	<packaging>pom</packaging>
-	<url>https://github.com/qcastel/spring-security-multi-auth</url>
+	<url>https://github.com/OpenBankingToolkit/spring-security-multi-auth</url>
+	<description>
+		WARNING: THIS VERSION IS FOR USE WITH PROJECTS THAT USE 2.1.5 VERSION OF SPRING BOOT
+		A library to extend spring boot version 2.1.5 to make it possible to collect authentication and
+		authorisation from multiple sources such as from a cookie and a certificate.
+
+		The original concept and work was done by Quentin Castle
+		(https://github.com/qcastel) while he was at ForgeRock. He opensourced this work in the openbanking4-dev
+		organisation. That organisation is now largely inactive and as we need to manage the CI/CD pipelines and are
+		the main users of this library the time has come for ForgeRock to take ownership of the library and take it
+		under our wing. Thanks for the awesome work Quentin!
+	</description>
 
     <modules>
 		<module>starter</module>
@@ -106,18 +116,23 @@
 	</dependencyManagement>
 
 	<scm>
-		<connection>scm:git:https://github.com/openbanking4-dev/spring-security-multi-auth.git</connection>
-		<developerConnection>scm:git:https://github.com/openbanking4-dev/spring-security-multi-auth.git</developerConnection>
-		<url>https://github.com/openbanking4-dev/spring-security-multi-auth.git</url>
+		<connection>scm:git:https://github.com/OpenBankingToolkit/spring-security-multi-auth.git</connection>
+		<developerConnection>scm:git:https://github.com/OpenBankingToolkit/spring-security-multi-auth.git</developerConnection>
+		<url>https://github.com/OpenBankingToolkit/spring-security-multi-auth.git</url>
 	  	<tag>HEAD</tag>
   	</scm>
 
 	<distributionManagement>
 		<repository>
-			<id>bintray-quentincastel-openbanking4.dev</id>
-			<name>OpenBanking4.dev Releases Repository</name>
-			<url>https://api.bintray.com/maven/openbanking4-dev/openbanking4-dev/spring-security-multi-auth/;publish=1</url>
+			<id>maven.forgerock.org-community</id>
+			<name>maven.forgerock.org-releases</name>
+			<url>https://maven.forgerock.org:443/repo/community</url>
 		</repository>
+		<snapshotRepository>
+			<id>maven.forgerock.org-community-snapshots</id>
+			<name>maven.forgerock.org-snapshots</name>
+			<url>https://maven.forgerock.org:443/repo/community</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<repositories>
