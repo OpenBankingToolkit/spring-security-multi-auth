@@ -5,7 +5,7 @@
 |Bintray|[![Bintray](https://img.shields.io/bintray/v/openbanking4-dev/openbanking4-dev/spring-security-multi-auth.svg?maxAge=2592000)](https://bintray.com/openbanking4-dev/openbanking4-dev/spring-security-multi-auth)|
 |License|![license](https://img.shields.io/github/license/ACRA/acra.svg)|
 
-Spring security multi-auth 
+Spring security multi-auth - *Extends version 2.1.5 of Spring Boot*
 ========================
 
 Extend Spring security to provide a multi-auth configurer. Create custom authentication method, add more than one 
@@ -24,6 +24,12 @@ The first objective of this project is to offer you an easier way to implement a
 Instead of creating an authentication configurer directly, which requires defining a configurer and a filter, you define
 authentication and authorization collectors. Much friendly to implement, you concentrate on the auth and the integration
 with the spring framework is handle for you by this library.
+
+# Origin of this toolkit
+The original concept and work was done by Quentin Castle (https://github.com/qcastel) while he was at ForgeRock. He 
+opensourced this work in the openbanking4-dev organisation. That organisation is now largely inactive and as we need to 
+manage the CI/CD pipelines and are the main users of this library the time has come for ForgeRock to take ownership 
+of the library and take it under our wing. Thanks for the awesome work Quentin!
 
 ## Multiple authentications in parallel
 
@@ -80,7 +86,7 @@ Add the following dependency:
 
 ```xml
 <dependency>
-    <groupId>dev.openbanking4.spring.security</groupId>
+    <groupId>com.forgerock.spring.security</groupId>
     <artifactId>spring-security-multi-auth-starter</artifactId>
     <version>{project.version}</version>
 </dependency>
@@ -89,13 +95,14 @@ Add the following dependency:
 ```xml
 <repositories>
   <repository>
-    <id>jcenter</id>
-    <url>https://jcenter.bintray.com/</url>
+    <id>maven.forgerock.org-community</id>
+    <url>https://maven.forgerock.org:443/repo/community</url>
   </repository>
 </repositories>
 ```
 
 ## examples:
 
-We created a dedicated repo [https://github.com/openbanking4-dev/spring-security-multi-auth-examples](https://github.com/openbanking4-dev/spring-security-multi-auth-examples) to provide examples of how you can use the library.
+We created a dedicated repo [https://github.com/OpenBankingToolkit/spring-security-multi-auth-examples](https://github.
+com/openbanking4-dev/spring-security-multi-auth-examples) to provide examples of how you can use the library.
 
