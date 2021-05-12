@@ -33,7 +33,7 @@
 
 	<groupId>com.forgerock.spring.security</groupId>
 	<artifactId>spring-security-multi-auth</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>spring-security-multi-auth</name>
 	<packaging>pom</packaging>
 	<url>https://github.com/OpenBankingToolkit/spring-security-multi-auth</url>
@@ -61,7 +61,7 @@
 		<apache.httpasyncclient.version>4.1.4</apache.httpasyncclient.version>
 		<lombok.version>1.18.10</lombok.version>
 		<nimbusds.version>7.9</nimbusds.version>
-		<eidas.sdk.version>1.13</eidas.sdk.version>
+		<eidas.psd2.sdk.version>1.27</eidas.psd2.sdk.version>
 		<mockito.core.version>3.0.0</mockito.core.version>
 		<junit.version>4.12</junit.version>
 		<assertj.core.version>3.13.2</assertj.core.version>
@@ -89,10 +89,15 @@
 				<artifactId>nimbus-jose-jwt</artifactId>
 				<version>${nimbusds.version}</version>
 			</dependency>
-			<dependency>
+			<!--dependency>
 				<groupId>com.forgerock</groupId>
 				<artifactId>forgerock-eidas-psd2-cert-sdk</artifactId>
 				<version>${eidas.sdk.version}</version>
+			</dependency-->
+			<dependency>
+				<groupId>com.forgerock.openbanking</groupId>
+				<artifactId>eidas-psd2-cert</artifactId>
+				<version>${eidas.psd2.sdk.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.mockito</groupId>

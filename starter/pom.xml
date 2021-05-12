@@ -30,7 +30,7 @@
     <parent>
         <groupId>com.forgerock.spring.security</groupId>
         <artifactId>spring-security-multi-auth</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -55,8 +55,10 @@
             <artifactId>nimbus-jose-jwt</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.forgerock</groupId>
-            <artifactId>forgerock-eidas-psd2-cert-sdk</artifactId>
+            <!--groupId>com.forgerock</groupId>
+            <artifactId>forgerock-eidas-psd2-cert-sdk</artifactId-->
+            <groupId>com.forgerock.openbanking</groupId>
+            <artifactId>eidas-psd2-cert</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
