@@ -25,20 +25,19 @@
     <groupId>com.forgerock.spring.security</groupId>
     <artifactId>spring-security-multi-auth-samples</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>Samples</name>
 
     <parent>
         <groupId>com.forgerock.spring.security</groupId>
         <artifactId>spring-security-multi-auth</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>com.forgerock.spring.security</groupId>
             <artifactId>spring-security-multi-auth-starter</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -80,11 +79,6 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

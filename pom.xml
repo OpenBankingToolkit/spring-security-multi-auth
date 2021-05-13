@@ -21,205 +21,235 @@
     under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.5.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.5.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-	<groupId>com.forgerock.spring.security</groupId>
-	<artifactId>spring-security-multi-auth</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
-	<name>spring-security-multi-auth</name>
-	<packaging>pom</packaging>
-	<url>https://github.com/OpenBankingToolkit/spring-security-multi-auth</url>
-	<description>
-		WARNING: THIS VERSION IS FOR USE WITH PROJECTS THAT USE 2.1.5 VERSION OF SPRING BOOT
-		A library to extend spring boot version 2.1.5 to make it possible to collect authentication and
-		authorisation from multiple sources such as from a cookie and a certificate.
+    <groupId>com.forgerock.spring.security</groupId>
+    <artifactId>spring-security-multi-auth</artifactId>
+    <version>1.0.2-SNAPSHOT</version>
+    <name>spring-security-multi-auth</name>
+    <packaging>pom</packaging>
+    <url>https://github.com/OpenBankingToolkit/spring-security-multi-auth</url>
+    <description>
+        WARNING: THIS VERSION IS FOR USE WITH PROJECTS THAT USE 2.1.5 VERSION OF SPRING BOOT
+        A library to extend spring boot version 2.1.5 to make it possible to collect authentication and
+        authorisation from multiple sources such as from a cookie and a certificate.
 
-		The original concept and work was done by Quentin Castle
-		(https://github.com/qcastel) while he was at ForgeRock. He opensourced this work in the openbanking4-dev
-		organisation. That organisation is now largely inactive and as we need to manage the CI/CD pipelines and are
-		the main users of this library the time has come for ForgeRock to take ownership of the library and take it
-		under our wing. Thanks for the awesome work Quentin!
-	</description>
+        The original concept and work was done by Quentin Castle
+        (https://github.com/qcastel) while he was at ForgeRock. He opensourced this work in the openbanking4-dev
+        organisation. That organisation is now largely inactive and as we need to manage the CI/CD pipelines and are
+        the main users of this library the time has come for ForgeRock to take ownership of the library and take it
+        under our wing. Thanks for the awesome work Quentin!
+    </description>
 
     <modules>
-		<module>starter</module>
-		<module>samples</module>
+        <module>starter</module>
+        <module>samples</module>
     </modules>
 
-	<properties>
-		<java.version>11</java.version>
-		<version.javadoc.plugin>3.0.1</version.javadoc.plugin>
-		<apache.httpmime.version>4.5.9</apache.httpmime.version>
-		<apache.httpasyncclient.version>4.1.4</apache.httpasyncclient.version>
-		<lombok.version>1.18.10</lombok.version>
-		<nimbusds.version>7.9</nimbusds.version>
-		<eidas.sdk.version>1.13</eidas.sdk.version>
-		<mockito.core.version>3.0.0</mockito.core.version>
-		<junit.version>4.12</junit.version>
-		<assertj.core.version>3.13.2</assertj.core.version>
-	</properties>
+    <properties>
+        <java.version>11</java.version>
+        <version.javadoc.plugin>3.0.1</version.javadoc.plugin>
+        <apache.httpmime.version>4.5.9</apache.httpmime.version>
+        <apache.httpasyncclient.version>4.1.4</apache.httpasyncclient.version>
+        <lombok.version>1.18.10</lombok.version>
+        <nimbusds.version>7.9</nimbusds.version>
+        <eidas.psd2.sdk.version>1.27</eidas.psd2.sdk.version>
+        <mockito.core.version>3.0.0</mockito.core.version>
+        <junit.version>4.12</junit.version>
+        <assertj.core.version>3.13.2</assertj.core.version>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpmime</artifactId>
-				<version>${apache.httpmime.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpasyncclient</artifactId>
-				<version>${apache.httpasyncclient.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>${lombok.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.nimbusds</groupId>
-				<artifactId>nimbus-jose-jwt</artifactId>
-				<version>${nimbusds.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.forgerock</groupId>
-				<artifactId>forgerock-eidas-psd2-cert-sdk</artifactId>
-				<version>${eidas.sdk.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-core</artifactId>
-				<version>${mockito.core.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.assertj</groupId>
-				<artifactId>assertj-core</artifactId>
-				<version>${assertj.core.version}</version>
-				<scope>test</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.forgerock.spring.security</groupId>
+                <artifactId>spring-security-multi-auth-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${apache.httpmime.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpasyncclient</artifactId>
+                <version>${apache.httpasyncclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbusds.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.forgerock.openbanking</groupId>
+                <artifactId>eidas-psd2-cert</artifactId>
+                <version>${eidas.psd2.sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.core.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<scm>
-		<connection>scm:git:git@github.com:OpenBankingToolkit/spring-security-multi-auth.git</connection>
-		<developerConnection>scm:git:git@github.com:OpenBankingToolkit/spring-security-multi-auth.git</developerConnection>
-		<url>https://github.com/OpenBankingToolkit/spring-security-multi-auth.git</url>
-	  	<tag>HEAD</tag>
-  	</scm>
+    <scm>
+        <connection>scm:git:git@github.com:OpenBankingToolkit/spring-security-multi-auth.git</connection>
+        <developerConnection>scm:git:git@github.com:OpenBankingToolkit/spring-security-multi-auth.git
+        </developerConnection>
+        <url>https://github.com/OpenBankingToolkit/spring-security-multi-auth.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
-	<distributionManagement>
-		<repository>
-			<id>maven.forgerock.org-community</id>
-			<name>maven.forgerock.org-releases</name>
-			<url>https://maven.forgerock.org:443/repo/community</url>
-		</repository>
-		<snapshotRepository>
-			<id>maven.forgerock.org-community-snapshots</id>
-			<name>maven.forgerock.org-snapshots</name>
-			<url>https://maven.forgerock.org:443/repo/community</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>maven.forgerock.org-community</id>
+            <name>maven.forgerock.org-releases</name>
+            <url>https://maven.forgerock.org:443/repo/community</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven.forgerock.org-community-snapshots</id>
+            <name>maven.forgerock.org-snapshots</name>
+            <url>https://maven.forgerock.org:443/repo/community</url>
+        </snapshotRepository>
+    </distributionManagement>
 
-	<repositories>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>maven.forgerock.org-community</id>
+            <name>maven.forgerock.org-releases</name>
+            <url>https://maven.forgerock.org:443/repo/community</url>
+        </repository>
+        <repository>
+            <id>maven.forgerock.org-community-snapshots</id>
+            <name>maven.forgerock.org-snapshots</name>
+            <url>https://maven.forgerock.org:443/repo/community</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo1.maven.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
 
-	<licenses>
-		<license>
-			<name>Apache 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
 
-	<developers>
-		<developer>
-			<name>Quentin Castel</name>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <name>Quentin Castel</name>
+        </developer>
+    </developers>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<inherited>true</inherited>
-				<configuration>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
-				</configuration>
-			</plugin>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<scmCommentPrefix>[ci skip]</scmCommentPrefix>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.mycila</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<version>3.0</version>
-				<configuration>
-					<header>file://${maven.multiModuleProjectDirectory}/legal/LICENSE.txt</header>
-					<includes>
-						<include>**/*.java</include>
-						<include>pom.xml</include>
-					</includes>
-					<excludes>
-						<exclude>**/README</exclude>
-						<exclude>**/*sh</exclude>
-						<exclude>**/*txt</exclude>
-						<exclude>settings.xml</exclude>
-						<exclude>src/test/resources/**</exclude>
-						<exclude>src/main/resources/**</exclude>
-					</excludes>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>format</goal>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<!-- attached to Maven test phase -->
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <scmCommentPrefix>[ci skip]</scmCommentPrefix>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <header>file://${maven.multiModuleProjectDirectory}/legal/LICENSE.txt</header>
+                    <includes>
+                        <include>**/*.java</include>
+                        <include>pom.xml</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/README</exclude>
+                        <exclude>**/*sh</exclude>
+                        <exclude>**/*txt</exclude>
+                        <exclude>settings.xml</exclude>
+                        <exclude>src/test/resources/**</exclude>
+                        <exclude>src/main/resources/**</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>format</goal>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
