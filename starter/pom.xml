@@ -30,7 +30,7 @@
     <parent>
         <groupId>com.forgerock.spring.security</groupId>
         <artifactId>spring-security-multi-auth</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3-SNAPSHOT</version>
     </parent>
 
     <dependencies>
