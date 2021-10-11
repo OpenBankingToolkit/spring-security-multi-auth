@@ -66,7 +66,7 @@ public class X509Collector implements AuthCollector {
 
     @Override
     public AuthenticationWithEditableAuthorities collectAuthentication(HttpServletRequest request) {
-
+        log.debug("collectAuthentication() called on X509Collector {}", collectorName);
         X509Certificate[] certificatesChain = getCertificatesFromRequest(request);
         X509Authentication authentication = null;
         //Check if no client certificate received
@@ -95,20 +95,22 @@ public class X509Collector implements AuthCollector {
         }
 
         Set<GrantedAuthority> authorities = authoritiesCollector.getAuthorities(certificatesChain);
-        log.trace("Authorities founds: {}", authorities);
+        log.trace("collectAuthorisation() Authorities found: {}", authorities);
 
         authorities.addAll(currentAuthentication.getAuthorities());
-        log.trace("Final authorities merged with previous authorities: {}", authorities);
+        log.trace("collectAuthorisation() Final authorities merged with previous authorities: {}", authorities);
         return createAuthentication(currentAuthentication, certificatesChain, authorities);
     }
 
 
     private X509Certificate[] getX509Certificates(HttpServletRequest request) {
+        log.trace("getX509Certificates() called");
         X509Certificate[] certificatesChain;
 
         if (collectFromHeader != null && request.getHeader(headerName) != null) {
             String certificatesSerialised = request.getHeader(headerName);
-            log.debug("Found a certificate in the header '{}'", certificatesSerialised);
+            log.debug("getX509Certificates() {} Found a certificate in the header '{}'", collectorName,
+                    certificatesSerialised);
             certificatesChain = collectFromHeader.parseCertificate(certificatesSerialised).toArray(new X509Certificate[0]);
         } else {
             certificatesChain = RequestUtils.extractCertificatesChain(request);

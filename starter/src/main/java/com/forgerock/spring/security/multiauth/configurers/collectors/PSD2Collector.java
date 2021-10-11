@@ -54,7 +54,7 @@ public class PSD2Collector extends X509Collector {
             Set<GrantedAuthority> authorities = new HashSet<>();
             try {
                 Psd2CertInfo psd2CertInfo = new Psd2CertInfo(certificatesChain);
-                log.trace("Verify if certificate is a QWAC");
+                log.trace("getAuthoritiesCollector() Verify if certificate is a QWAC");
                 if (psd2CertInfo.isPsd2Cert()
                         && psd2CertInfo.getEidasCertType().isPresent()
                         && psd2CertInfo.getEidasCertType().get().equals(EidasCertType.WEB)) {
@@ -63,44 +63,47 @@ public class PSD2Collector extends X509Collector {
                     Optional<Psd2QcStatement> psd2QcStatementOpt = psd2CertInfo.getPsd2QCStatement();
                     if (psd2QcStatementOpt.isPresent()) {
                         Psd2QcStatement psd2QcStatement = psd2QcStatementOpt.get();
-                        log.trace("Founds PSD2 QC Statement {}", psd2QcStatement);
+                        log.debug("getAuthoritiesCollector() Found PSD2 QC Statement {}", psd2QcStatement);
                         RolesOfPsp roles = psd2QcStatement.getRoles();
                         authorities.addAll(psd2AuthoritiesCollector.getAuthorities(certificatesChain, psd2CertInfo,
                                 roles));
                     } else {
-                        log.trace("No PSD2 QC Statement found");
+                        log.info("getAuthoritiesCollector() No PSD2 QC Statement found");
                         authorities.addAll(psd2AuthoritiesCollector.getAuthorities(certificatesChain, psd2CertInfo, null));
                     }
                 } else {
                     if (log.isTraceEnabled()) {
                         if (!psd2CertInfo.isPsd2Cert()) {
-                            log.trace("Not a PSD2 cert");
+                            log.trace("getAuthoritiesCollector() Not a PSD2 cert");
                         } else if (psd2CertInfo.getEidasCertType().isEmpty()) {
-                            log.trace("Is a PSD2 certs but no EIDAS cert type");
+                            log.trace("getAuthoritiesCollector() Is a PSD2 certs but no EIDAS cert type");
                         } else if (psd2CertInfo.getEidasCertType().isEmpty()) {
-                            log.trace("Is a PSD2 certs with EIDAS cert type {} but it's not a QWAC",
+                            log.trace("getAuthoritiesCollector() Is a PSD2 certs with EIDAS cert type {} but it's not" +
+                                            " a QWAC",
                                     psd2CertInfo.getEidasCertType().get());
                         }
                     }
                     authorities.addAll(psd2AuthoritiesCollector.getAuthorities(certificatesChain, null, null));
                 }
-            } catch (InvalidPsd2EidasCertificate | InvalidEidasCertType invalidPsd2EidasCertificate) {
-                log.warn("Certificate founds couldn't be parsed as a PSD2 certificate. Will ignore the certificate",
-                        invalidPsd2EidasCertificate);
+            } catch (InvalidPsd2EidasCertificate | InvalidEidasCertType invalidPsd2EidasCertificateException) {
+                log.warn("getAuthoritiesCollector() The presented certificate could not be parsed as a PSD2 " +
+                                "certificate. No authorities will be collected from this certificate",
+                        invalidPsd2EidasCertificateException);
             }
-
+            log.info("getAuthoritiesCollector() returning the following authorities; {} ", authorities);
             return authorities;
         };
     }
 
     private static X509Collector.UsernameCollector getUsernameCollector(Psd2UsernameCollector usernameCollector) {
+        log.trace("getUsernameCollector() called");
         return certificatesChain -> {
             try {
                 Psd2CertInfo psd2CertInfo = new Psd2CertInfo(certificatesChain);
                 return usernameCollector.getUserName(certificatesChain, psd2CertInfo);
-            } catch (InvalidPsd2EidasCertificate | InvalidEidasCertType invalidPsd2EidasCertificate) {
-                log.warn("Certificate found couldn't be parsed as a PSD2 certificate. Certificate will be ignored",
-                        invalidPsd2EidasCertificate);
+            } catch (InvalidPsd2EidasCertificate | InvalidEidasCertType invalidPsd2EidasCertificateException) {
+                log.warn("getUsernameCollector() Certificate found couldn't be parsed as a PSD2 certificate. " +
+                                "Username will not be collected", invalidPsd2EidasCertificateException);
                 return null;
             }
         };
@@ -118,7 +121,7 @@ public class PSD2Collector extends X509Collector {
             psd2Authentication.setAuthenticated(currentAuthentication.isAuthenticated());
             return psd2Authentication;
         } catch (InvalidPsd2EidasCertificate invalidPsd2EidasCertificate) {
-            log.warn("Certificate founds couldn't be parsed as a PSD2 certificate. Will ignore the certificate",
+            log.warn("Certificate found couldn't be parsed as a PSD2 certificate. Will ignore the certificate",
                     invalidPsd2EidasCertificate);
         }
         return super.createAuthentication(currentAuthentication, certificatesChain, authorities);

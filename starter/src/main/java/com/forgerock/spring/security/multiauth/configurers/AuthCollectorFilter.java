@@ -49,55 +49,60 @@ public class AuthCollectorFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
+            log.info("doFilterInternal() called for request to {}", request.getRequestURI());
             AuthenticationWithEditableAuthorities currentAuthentication = null;
-            log.trace("Going through all the collectors to authenticate the request, in the order of setup");
-            for (AuthCollector authCollector : authenticationCollectors) {
-                log.trace("Collector name: '{}'", authCollector.collectorName());
+            for (AuthCollector authnCollector : authenticationCollectors) {
+                log.debug("doFilterInternal() collecting from collector name: '{}'", authnCollector.collectorName());
 
-                log.trace("Verify is setup correctly to handle authentication");
-                if (!authCollector.isSetupForAuthentication()) {
-                    log.warn("You forgot to setup the username collector. Either setup a username " +
-                            "collector or setup this collector '" + authCollector.collectorName() + "' to only handle authorization");
+                log.trace("doFilterInternal() Ensure collector is setup correctly to handle authentication");
+                if (!authnCollector.isSetupForAuthentication()) {
+                    log.warn("doFilterInternal() No username collector. Either setup a username " +
+                            "collector or configure this collector '{}' to only handle authorization",
+                            authnCollector.collectorName());
                     continue;
                 }
-                currentAuthentication = authCollector.collectAuthentication(request);
+                currentAuthentication = authnCollector.collectAuthentication(request);
                 if (currentAuthentication != null) {
-                    log.trace("Collector founds an authentication, skip next collectors");
+                    log.debug("doFilterInternal() Collector found an authentication {}, skip next collectors",
+                            currentAuthentication);
                     break;
                 } else {
-                    log.trace("Collector didn't managed to find an authentication");
+                    log.debug("doFilterInternal() Collector didn't find an authentication, continuing with the next " +
+                            "collector");
                 }
             }
 
             if (currentAuthentication == null) {
-                log.trace("No authentication founds by any of the collectors");
+                log.info("doFilterInternal() No authentication found by any of the collectors. Will not collect " +
+                        "authorizations");
                 chain.doFilter(request, response);
                 return;
             }
 
             currentAuthentication.setAuthenticated(true);
 
-            log.trace("Going through all the collectors to authorize the request");
-            for (AuthCollector authCollector : authorizationCollectors) {
-                log.trace("Collector name: '{}'", authCollector.collectorName());
-                log.trace("Verify is setup correctly to handle authorisation");
-                if (!authCollector.isSetupForAuthorisation()) {
-                    log.warn("You forgot to setup the authorities collector. Either setup an authorities " +
-                            "collector or setup this collector '" + authCollector.collectorName() + "' to only handle authentication");
+            log.trace("doFilterInternal() Going through all the authorization collectors to authorize the request");
+            for (AuthCollector authzCollector : authorizationCollectors) {
+                log.trace("doFilterInternal() Ensure collector {} is setup correctly to handle authorisation",
+                        authzCollector.collectorName());
+                if (!authzCollector.isSetupForAuthorisation()) {
+                    log.warn("doFilterInternal() No authorities collector. Either setup an " +
+                            "authorities collector or configure this collector '" + authzCollector.collectorName() +
+                            "' to only handle authentication");
                     continue;
                 }
-                currentAuthentication = authCollector.collectAuthorisation(request, currentAuthentication);
+                currentAuthentication = authzCollector.collectAuthorisation(request, currentAuthentication);
             }
             if (currentAuthentication != null) {
-                log.trace("Authentication computed by the multi-auth: {}", currentAuthentication);
+                log.info("doFilterInternal() Authentications collected: {}", currentAuthentication);
                 SecurityContextHolder.getContext().setAuthentication(currentAuthentication);
+            } else {
+                log.info("doFilterInternal() No authentications were collected from any of the collectors");
             }
             chain.doFilter(request, response);
         }  catch (AuthenticationException e) {
-            log.trace("An authentication failure exception happened!", e);
+            log.info("doFilterInternal() An authentication failure exception happened!", e);
             authenticationFailureHandler.onAuthenticationFailure(request, response, e);
         }
     }
-
-
 }
