@@ -39,7 +39,7 @@ public enum CertificateHeaderFormat {
     PEM {
         @Override
         public List<X509Certificate> parseCertificate(String pem) {
-            log.debug("Extract the certificate from a pem {}", pem);
+            log.trace("parseCertificate() Extract the certificate from a pem {}", pem);
             try {
                 byte [] decoded = Base64.getDecoder()
                         .decode(
@@ -51,19 +51,19 @@ public enum CertificateHeaderFormat {
                         (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(new ByteArrayInputStream(decoded))
                 ).collect(Collectors.toList());
             } catch (CertificateException e) {
-                log.error("Can't initialise certificate factory", e);
+                log.info("parseCertificate() Can't initialise certificate factory", e);
             }
             return null;
         }
     }, JWK {
         @Override
         public  List<X509Certificate> parseCertificate(String jwkSerialised) {
-            log.debug("Extract the certificate from the JWK");
+            log.trace("parseCertificate() Extract the certificate from the JWK");
             try {
                 JWK jwk = com.nimbusds.jose.jwk.JWK.parse(jwkSerialised);
                 return jwk.getParsedX509CertChain();
             } catch (ParseException e) {
-                log.error("Can't parse x509 certificate", e);
+                log.info("parseCertificate() Can't parse x509 certificate", e);
             }
             return null;
         }
